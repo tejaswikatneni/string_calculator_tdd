@@ -5,8 +5,10 @@ class DataSummarizer
   # This is the minimal implementation for the first test.
   def self.aggregate(series)
     return 0 if series.nil? || series == ""
-    # split by comma and sum the numbers
-    parts = series.split(',').map(&:to_i)
-    parts.sum
+
+    # replace newline characters with commas, then split
+    normalized = series.gsub("\n", ",")
+    numbers = normalized.split(",").map(&:to_i)
+    numbers.sum
   end
 end

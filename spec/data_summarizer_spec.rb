@@ -20,5 +20,17 @@ RSpec.describe DataSummarizer do
 	    expect(DataSummarizer.aggregate("1,5")).to eq(6)
 	  end
 	end
+
+	context 'when input has multiple comma-separated numbers' do
+	  it 'returns the total sum of all numbers' do
+	    expect(DataSummarizer.aggregate("1,2,3,4,5")).to eq(15)
+	  end
+	end
+
+	context 'when input includes newline characters as delimiters' do
+	  it 'treats newline as a valid separator along with commas' do
+	    expect(DataSummarizer.aggregate("1\n2,3")).to eq(6)
+	  end
+	end
   end
 end
