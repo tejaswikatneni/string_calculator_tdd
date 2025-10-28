@@ -32,5 +32,15 @@ RSpec.describe DataSummarizer do
 	    expect(DataSummarizer.aggregate("1\n2,3")).to eq(6)
 	  end
 	end
+
+	context 'when input defines a custom delimiter' do
+	  it 'uses the custom delimiter to split numbers' do
+	    expect(DataSummarizer.aggregate("//;\n1;2")).to eq(3)
+	  end
+
+	  it 'works with different delimiters' do
+	    expect(DataSummarizer.aggregate("//#\n2#3#4")).to eq(9)
+	  end
+	end
   end
 end
