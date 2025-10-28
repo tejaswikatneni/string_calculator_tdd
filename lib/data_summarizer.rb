@@ -5,6 +5,6 @@ class DataSummarizer
   # This is the minimal implementation for the first test.
   def self.aggregate(series)
     return 0 if series.nil? || series == ""
-    # further behavior added in later TDD steps
+    return series.to_i if series =~ /^\d+$/
   end
 end

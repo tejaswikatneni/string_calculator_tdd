@@ -8,5 +8,11 @@ RSpec.describe DataSummarizer do
         expect(DataSummarizer.aggregate("")).to eq(0)
       end
     end
+
+    context 'when input has a single numeric value' do
+	  it 'returns that numeric value as integer' do
+	    expect(DataSummarizer.aggregate("7")).to eq(7)
+	  end
+	end
   end
 end
