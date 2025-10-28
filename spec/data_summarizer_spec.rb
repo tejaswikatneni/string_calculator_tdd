@@ -56,5 +56,19 @@ RSpec.describe DataSummarizer do
 	    }.to raise_error("negative numbers not allowed -2,-5")
 	  end
 	end
+
+	context 'edge cases' do
+	  it 'returns 0 for input with only newline characters' do
+	    expect(DataSummarizer.aggregate("\n")).to eq(0)
+	  end
+
+	  it 'ignores extra spaces around numbers' do
+	    expect(DataSummarizer.aggregate(" 1 , 2 , 3 ")).to eq(6)
+	  end
+
+	  it 'handles custom delimiter but empty body gracefully' do
+	    expect(DataSummarizer.aggregate("//;\n")).to eq(0)
+	  end
+	end
   end
 end
