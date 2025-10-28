@@ -42,5 +42,19 @@ RSpec.describe DataSummarizer do
 	    expect(DataSummarizer.aggregate("//#\n2#3#4")).to eq(9)
 	  end
 	end
+
+	context 'when input contains negative numbers' do
+	  it 'raises an exception mentioning the negative number' do
+	    expect {
+	      DataSummarizer.aggregate("1,-2,3")
+	    }.to raise_error("negative numbers not allowed -2")
+	  end
+
+	  it 'includes all negative numbers in the exception message' do
+	    expect {
+	      DataSummarizer.aggregate("1,-2,-5,3")
+	    }.to raise_error("negative numbers not allowed -2,-5")
+	  end
+	end
   end
 end
