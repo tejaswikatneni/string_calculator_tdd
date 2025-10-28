@@ -14,5 +14,11 @@ RSpec.describe DataSummarizer do
 	    expect(DataSummarizer.aggregate("7")).to eq(7)
 	  end
 	end
+
+	context 'when input has two comma-separated numbers' do
+	  it 'returns the sum of both numbers' do
+	    expect(DataSummarizer.aggregate("1,5")).to eq(6)
+	  end
+	end
   end
 end
