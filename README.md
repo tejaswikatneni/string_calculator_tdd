@@ -25,39 +25,15 @@ Requirements
 | Support newlines as delimiters | `"1\n2,3"`    | `6`                                    |
 | Support custom delimiters      | `"//;\n1;2"`  | `3`                                    |
 | Throw on negatives (show all)  | `"1,-2,-3"`   | `"negative numbers not allowed -2,-3"` |
+| Ignore numbers > 1000          | `"2,1001"`    | `2`                                    |
 
 
 
+🧩 Implementation Details
 
-⚙️ Implementation
+The main logic resides in lib/data_summarizer.rb and is tested in spec/data_summarizer_spec.rb.
 
-File: lib/data_summarizer.rb
-
-class DataSummarizer
-  def self.aggregate(series)
-    return 0 if series.to_s.strip.empty?
-
-    delimiter, numbers_part = extract_delimiter_and_numbers(series)
-    normalized = numbers_part.tr("\n", delimiter)
-    numbers = normalized.split(delimiter).map(&:to_i)
-
-    negatives = numbers.select(&:negative?)
-    raise "negative numbers not allowed #{negatives.join(',')}" unless negatives.empty?
-
-    numbers.sum
-  end
-
-  private
-
-  def self.extract_delimiter_and_numbers(series)
-    if series.start_with?("//")
-      header, body = series.split("\n", 2)
-      [header[2], body]
-    else
-      [",", series]
-    end
-  end
-end
+DataSummarizer.aggregate(series : String) -> Integer
 
 
 🧪 Testing
