@@ -4,11 +4,11 @@ class DataSummarizer
 
     delimiters, numbers_part = extract_delimiter_and_numbers(series)
 
-    # Replace all delimiters and newlines with commas
+    # Combine all delimiters and newline into a regex pattern
     pattern = Regexp.union(delimiters + ["\n"])
-    normalized = numbers_part.gsub(pattern, ",")
 
-    numbers = normalized.split(",").reject(&:empty?).map(&:to_i)
+    # Use scan to extract all numbers directly
+    numbers = numbers_part.scan(/-?\d+/).map(&:to_i)
 
     negatives = numbers.select(&:negative?)
     raise "negative numbers not allowed #{negatives.join(',')}" unless negatives.empty?
@@ -22,7 +22,7 @@ class DataSummarizer
     if series.start_with?("//")
       header, body = series.split("\n", 2)
 
-      # Handle multiple delimiters
+      # Handle multiple delimiters using scan
       if header.match?(/\[.*\]/)
         delimiters = header.scan(/\[(.*?)\]/).flatten
       else
