@@ -78,5 +78,16 @@ RSpec.describe DataSummarizer do
 	    expect(DataSummarizer.aggregate("1234,5,1001")).to eq(5)
 	  end
 	end
+
+	context 'when input defines a multi-character custom delimiter' do
+	  it 'supports delimiters enclosed in square brackets' do
+	    expect(DataSummarizer.aggregate("//[***]\n1***2***3")).to eq(6)
+	    expect(DataSummarizer.aggregate("//[abc]\n4abc5abc6")).to eq(15)
+	  end
+
+	  it 'handles newline characters with multi-character delimiter' do
+	    expect(DataSummarizer.aggregate("//[|||]\n1|||2\n3")).to eq(6)
+	  end
+	end
   end
 end

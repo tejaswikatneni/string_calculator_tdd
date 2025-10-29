@@ -1,17 +1,14 @@
-# lib/data_summarizer.rb
 class DataSummarizer
-  # aggregate(series: String) -> Integer
-  # Returns the sum of numbers present in the series string.
   def self.aggregate(series)
     return 0 if series.to_s.strip.empty?
 
     delimiter, numbers_part = extract_delimiter_and_numbers(series)
 
-    # Normalize delimiters (replace newlines with the main delimiter)
-    normalized = numbers_part.tr("\n", delimiter)
+    # Normalize newlines correctly using gsub (for multi-char delimiters)
+    normalized = numbers_part.gsub("\n", delimiter)
+
     numbers = normalized.split(delimiter).map(&:to_i)
 
-    # Handle negatives
     negatives = numbers.select(&:negative?)
     raise "negative numbers not allowed #{negatives.join(',')}" unless negatives.empty?
 
@@ -24,7 +21,15 @@ class DataSummarizer
   def self.extract_delimiter_and_numbers(series)
     if series.start_with?("//")
       header, body = series.split("\n", 2)
-      [header[2], body]
+
+      # Handle multi-character delimiters like //[***]
+      if header.match?(/\[.*\]/)
+        delimiter = header.scan(/\[(.*?)\]/).flatten.first
+      else
+        delimiter = header[2]
+      end
+
+      [delimiter, body]
     else
       [",", series]
     end
