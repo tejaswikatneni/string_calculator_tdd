@@ -7,7 +7,7 @@ class DataSummarizer
 
     delimiter, numbers_part = extract_delimiter_and_numbers(series)
 
-    # Normalize delimiters
+    # Normalize delimiters (replace newlines with the main delimiter)
     normalized = numbers_part.tr("\n", delimiter)
     numbers = normalized.split(delimiter).map(&:to_i)
 
@@ -15,7 +15,8 @@ class DataSummarizer
     negatives = numbers.select(&:negative?)
     raise "negative numbers not allowed #{negatives.join(',')}" unless negatives.empty?
 
-    numbers.sum
+    # Ignore numbers greater than 1000
+    numbers.reject { |n| n > 1000 }.sum
   end
 
   private

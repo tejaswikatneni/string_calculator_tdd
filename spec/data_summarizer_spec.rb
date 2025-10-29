@@ -70,5 +70,13 @@ RSpec.describe DataSummarizer do
 	    expect(DataSummarizer.aggregate("//;\n")).to eq(0)
 	  end
 	end
+
+	context 'when input contains numbers larger than 1000' do
+	  it 'ignores numbers greater than 1000 in the sum' do
+	    expect(DataSummarizer.aggregate("2,1001")).to eq(2)
+	    expect(DataSummarizer.aggregate("1000,2,3")).to eq(1005)
+	    expect(DataSummarizer.aggregate("1234,5,1001")).to eq(5)
+	  end
+	end
   end
 end
