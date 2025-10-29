@@ -16,17 +16,17 @@ int add(string numbers)
 
 Requirements
 
-| Feature                        | Example Input | Expected Output                        |
-| ------------------------------ | ------------- | -------------------------------------- |
-| Empty string returns `0`       | `""`          | `0`                                    |
-| One number returns itself      | `"1"`         | `1`                                    |
-| Two numbers return sum         | `"1,5"`       | `6`                                    |
-| Handle any count of numbers    | `"1,2,3,4,5"` | `15`                                   |
-| Support newlines as delimiters | `"1\n2,3"`    | `6`                                    |
-| Support custom delimiters      | `"//;\n1;2"`  | `3`                                    |
-| Throw on negatives (show all)  | `"1,-2,-3"`   | `"negative numbers not allowed -2,-3"` |
-| Ignore numbers > 1000          | `"2,1001"`    | `2`                                    |
-
+| Feature                            | Example Input       | Expected Output                        |
+| ---------------------------------- | ------------------- | -------------------------------------- |
+| Empty string returns `0`           | `""`                | `0`                                    |
+| One number returns itself          | `"1"`               | `1`                                    |
+| Two numbers return sum             | `"1,5"`             | `6`                                    |
+| Handle any count of numbers        | `"1,2,3,4,5"`       | `15`                                   |
+| Support newlines as delimiters     | `"1\n2,3"`          | `6`                                    |
+| Support custom delimiters          | `"//;\n1;2"`        | `3`                                    |
+| Support multiple custom delimiters | `"//[*][%]\n1*2%3"` | `6`                                    |
+| Throw on negatives (show all)      | `"1,-2,-3"`         | `"negative numbers not allowed -2,-3"` |
+| Ignore numbers greater than 1000   | `"2,1001,6"`        | `8`                                    |
 
 
 🧩 Implementation Details
