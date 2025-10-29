@@ -2,17 +2,17 @@ class DataSummarizer
   def self.aggregate(series)
     return 0 if series.to_s.strip.empty?
 
-    delimiter, numbers_part = extract_delimiter_and_numbers(series)
+    delimiters, numbers_part = extract_delimiter_and_numbers(series)
 
-    # Normalize newlines correctly using gsub (for multi-char delimiters)
-    normalized = numbers_part.gsub("\n", delimiter)
+    # Replace all delimiters and newlines with commas
+    pattern = Regexp.union(delimiters + ["\n"])
+    normalized = numbers_part.gsub(pattern, ",")
 
-    numbers = normalized.split(delimiter).map(&:to_i)
+    numbers = normalized.split(",").reject(&:empty?).map(&:to_i)
 
     negatives = numbers.select(&:negative?)
     raise "negative numbers not allowed #{negatives.join(',')}" unless negatives.empty?
 
-    # Ignore numbers greater than 1000
     numbers.reject { |n| n > 1000 }.sum
   end
 
@@ -22,16 +22,16 @@ class DataSummarizer
     if series.start_with?("//")
       header, body = series.split("\n", 2)
 
-      # Handle multi-character delimiters like //[***]
+      # Handle multiple delimiters
       if header.match?(/\[.*\]/)
-        delimiter = header.scan(/\[(.*?)\]/).flatten.first
+        delimiters = header.scan(/\[(.*?)\]/).flatten
       else
-        delimiter = header[2]
+        delimiters = [header[2]]
       end
 
-      [delimiter, body]
+      [delimiters, body]
     else
-      [",", series]
+      [[","], series]
     end
   end
 end

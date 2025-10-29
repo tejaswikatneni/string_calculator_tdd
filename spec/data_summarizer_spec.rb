@@ -89,5 +89,15 @@ RSpec.describe DataSummarizer do
 	    expect(DataSummarizer.aggregate("//[|||]\n1|||2\n3")).to eq(6)
 	  end
 	end
+
+	context 'when input defines multiple custom delimiters' do
+	  it 'handles multiple single-character delimiters' do
+	    expect(DataSummarizer.aggregate("//[*][%]\n1*2%3")).to eq(6)
+	  end
+
+	  it 'handles multiple multi-character delimiters' do
+	    expect(DataSummarizer.aggregate("//[***][#][%]\n1***2#3%4")).to eq(10)
+	  end
+	end
   end
 end
